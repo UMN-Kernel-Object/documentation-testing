@@ -13,17 +13,17 @@ jobs:
 	publish-docs:
 		runs-on: sphinxdoc/sphinx
 
-	steps:
-		# Checks-out your repository under $GITHUB_WORKSPACE
-		- uses: actions/checkout@v3
+	  steps:
+		  # Checks-out your repository under $GITHUB_WORKSPACE
+		  - uses: actions/checkout@v3
 
 		  # cd to our clone of the documentation repo
-		- name: cd to Repo
-		  run: cd $GITHUB_WORKSPACE
+		  - name: cd to Repo
+		    run: cd $GITHUB_WORKSPACE
 
 		  # Generate HTML files with sphinx
-		- name: Generate HTML
-		  run: |
-			  sphinx-quickstart
-			  ls
-			  make html
+		  - name: Generate HTML
+		    run: |
+			    sphinx-quickstart
+			    ls
+			    make html
