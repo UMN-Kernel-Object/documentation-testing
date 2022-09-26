@@ -26,5 +26,6 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Generate HTML
         run: |
-          sphinx-quickstart
-          make html
+          mkdir output
+          sphinx-build -b html . output
+          ls
