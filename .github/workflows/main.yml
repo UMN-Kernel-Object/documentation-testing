@@ -1,0 +1,29 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Publish Documentation
+
+# Run this workflow on push to main branch or when manually request
+# on Github's UI
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    # Use docker container provided by sphinx
+    runs-on: sphinxdoc/sphinx
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: cd to repo
+        run: cd $GITHUB_WORKSPACE
+
+      # Runs a set of commands using the runners shell
+      - name: Generate HTML
+        run: |
+          sphinx quick-start
+          make html
