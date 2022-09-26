@@ -12,8 +12,9 @@ on:
 
 jobs:
   publish:
+    runs-on: ubuntu-latest
     # Use docker container provided by sphinx
-    runs-on: sphinxdoc/sphinx
+    container: sphinxdoc/sphinx
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
