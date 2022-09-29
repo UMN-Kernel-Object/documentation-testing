@@ -28,4 +28,5 @@ jobs:
         run: |
           mkdir output
           sphinx-build -b html . output
+          git clone git@github.com:UMN-Kernel-Study-Group/UMN-Kernel-Study-Group.github.io.git
           ls
