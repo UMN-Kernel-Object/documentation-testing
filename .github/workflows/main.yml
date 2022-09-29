@@ -19,6 +19,16 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      
+      # Install git, configure user details, and set up SSH key
+      - name: Install and Configure git
+        run: |
+          apt-get install git
+          mkdir -p .ssh
+          echo ${{ secrets.DEPLOY_KEY_PRIVATE }} > .ssh/id_ed25519
+          chmod 0400 .ssh/id_25519
+          git config user.name "Kernel DocBot"
+          git config user.email "jhkolb@umn.edu"
 
       - name: cd to repo
         run: cd $GITHUB_WORKSPACE
@@ -28,5 +38,13 @@ jobs:
         run: |
           mkdir output
           sphinx-build -b html . output
-          gh repo clone UMN-Kernel-Study-Group/UMN-Kernel-Study-Group.github.io.git
-          ls
+      
+      # Clones existing github pages repo, moves in new files, and pushes
+      - name: Push New Docs
+      - run: |
+          git clone UMN-Kernel-Study-Group/UMN-Kernel-Study-Group.github.io.git
+          rm -rf UMN-Kernel-Study-Group.github.io/docs
+          cp -r output UMN-Kernel-Study-Group.github.io/docs
+          cd UMN-Kernel-Study-Group.github.io
+          git add docs
+          git push
