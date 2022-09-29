@@ -23,6 +23,7 @@ jobs:
       # Install git, configure user details, and set up SSH key
       - name: Install and Configure git
         run: |
+          apt update
           apt-get install git
           mkdir -p .ssh
           echo ${{ secrets.DEPLOY_KEY_PRIVATE }} > .ssh/id_ed25519
