@@ -13,8 +13,6 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    # Use docker container provided by sphinx
-    container: sphinxdoc/sphinx
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -27,20 +25,16 @@ jobs:
           apt-get -y install git
           mkdir -p .ssh
           echo ${{ secrets.DEPLOY_KEY_PRIVATE }} > .ssh/id_ed25519
-          chmod 0400 .ssh/id_25519
+          chmod 0400 .ssh/id_ed25519
           git config user.name "Kernel DocBot"
           git config user.email "jhkolb@umn.edu"
 
-      - name: cd to repo
-        run: cd $GITHUB_WORKSPACE
-
-      # Runs a set of commands using the runners shell
       - name: Generate HTML
         run: |
-          mkdir output
-          sphinx-build -b html . output
+          docker pull sphinxdoc/sphinx
+          docker run -v `pwd`:/docs sphinxdoc/sphinx sphinx-build -b html . output
       
-      # Clones existing github pages repo, moves in new files, and pushes
+      # Clone existing github pages repo, move in new files, and push
       - name: Push New Docs
         run: |
           git clone UMN-Kernel-Study-Group/UMN-Kernel-Study-Group.github.io.git
