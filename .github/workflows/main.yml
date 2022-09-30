@@ -17,20 +17,25 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      
-      # Install git, configure user details, and set up SSH key
-      - name: Install and Configure git
-        run: |
-          echo "${{ secrets.DEPLOY_KEY_PRIVATE }}" > id_ed25519
-          chmod 0400 id_ed25519
-          export GIT_SSH_COMMAND="ssh -i `pwd`/id_ed25519"
-          git config --global user.name "Kernel DocBot"
-          git config --global user.email "jhkolb@umn.edu"
 
       - name: Generate HTML
         run: |
           docker pull sphinxdoc/sphinx
           docker run -v `pwd`:/docs sphinxdoc/sphinx sphinx-build -b html . output
+          
+      # Install git, configure user details, and set up SSH key
+      # Much is borrowed from https://tabris.com/using-deploy-keys-on-github-actions
+      - name: Configure git and SSH access
+        env: SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_KEY_PRIVATE }}" > ~/.ssh/id_ed25519
+          chmod 0400 id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add ~/.ssh/id_ed25519
+          git config --global user.name "Kernel DocBot"
+          git config --global user.email "jhkolb@umn.edu"
       
       # Clone existing github pages repo, move in new files, and push
       - name: Push New Docs
