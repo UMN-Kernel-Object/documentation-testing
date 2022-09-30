@@ -46,4 +46,4 @@ jobs:
           cp -r output UMN-Kernel-Study-Group.github.io/docs
           cd UMN-Kernel-Study-Group.github.io
           git add docs
-          git push
+          git push origin main
