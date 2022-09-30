@@ -35,7 +35,7 @@ jobs:
       # Clone existing github pages repo, move in new files, and push
       - name: Push New Docs
         run: |
-          git clone UMN-Kernel-Study-Group/UMN-Kernel-Study-Group.github.io.git
+          git clone git@github.com:UMN-Kernel-Study-Group/UMN-Kernel-Study-Group.github.io.git
           rm -rf UMN-Kernel-Study-Group.github.io/docs
           cp -r output UMN-Kernel-Study-Group.github.io/docs
           cd UMN-Kernel-Study-Group.github.io
