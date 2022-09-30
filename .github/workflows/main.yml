@@ -22,10 +22,10 @@ jobs:
       - name: Install and Configure git
         run: |
           mkdir -p .ssh
-          echo ${{ secrets.DEPLOY_KEY_PRIVATE }} > .ssh/id_ed25519
+          echo "${{ secrets.DEPLOY_KEY_PRIVATE }}" > .ssh/id_ed25519
           chmod 0400 .ssh/id_ed25519
-          git config user.name "Kernel DocBot"
-          git config user.email "jhkolb@umn.edu"
+          git config --global user.name "Kernel DocBot"
+          git config --global user.email "jhkolb@umn.edu"
 
       - name: Generate HTML
         run: |
