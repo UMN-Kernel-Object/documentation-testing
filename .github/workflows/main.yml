@@ -26,7 +26,8 @@ jobs:
       # Install git, configure user details, and set up SSH key
       # Much is borrowed from https://tabris.com/using-deploy-keys-on-github-actions
       - name: Configure git and SSH access
-        env: SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY_KEY_PRIVATE }}" > ~/.ssh/id_ed25519
