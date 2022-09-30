@@ -21,9 +21,9 @@ jobs:
       # Install git, configure user details, and set up SSH key
       - name: Install and Configure git
         run: |
-          mkdir -p $HOME/.ssh
-          echo "${{ secrets.DEPLOY_KEY_PRIVATE }}" > $HOME/.ssh/id_ed25519
-          chmod 0400 .ssh/id_ed25519
+          echo "${{ secrets.DEPLOY_KEY_PRIVATE }}" > id_ed25519
+          chmod 0400 id_ed25519
+          export GIT_SSH_COMMAND="ssh -i `pwd`/id_ed25519"
           git config --global user.name "Kernel DocBot"
           git config --global user.email "jhkolb@umn.edu"
 
