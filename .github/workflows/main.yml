@@ -5,9 +5,7 @@ name: Publish Documentation
 # Run this workflow on push to main branch or when manually request
 # on Github's UI
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
+  # Triggers the workflow only upon manual request
   workflow_dispatch:
 
 jobs:
@@ -23,7 +21,7 @@ jobs:
           docker pull sphinxdoc/sphinx
           cd $GITHUB_WORKSPACE
           docker run -v `pwd`:/docs sphinxdoc/sphinx sphinx-build -b html . output
-          
+
       # Install git, configure user details, and set up SSH key
       # Much is borrowed from https://tabris.com/using-deploy-keys-on-github-actions
       - name: Configure git and SSH access
@@ -38,7 +36,7 @@ jobs:
           ssh-add ~/.ssh/id_ed25519
           git config --global user.name "Kernel DocBot"
           git config --global user.email "jhkolb@umn.edu"
-      
+
       # Clone existing github pages repo, move in new files, and push
       - name: Push New Docs
         run: |
